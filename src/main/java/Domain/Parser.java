@@ -32,8 +32,7 @@ public class Parser {
 
             String username = jElement.getAsJsonObject().get("username").getAsString();
             Integer timestamp = jElement.getAsJsonObject().get("timestamp").getAsInt();
-            System.out.println("Username is: " + username);
-            System.out.println("The timestamp is: " + timestamp);
+
         }
 
         return revisorList;

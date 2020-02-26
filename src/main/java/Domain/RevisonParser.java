@@ -31,8 +31,7 @@ import java.util.Map;
         for (JsonElement element : array) {
             String username = element.getAsJsonObject().get("username").getAsString();
             Integer timestamp = element.getAsJsonObject().get("timestamp").getAsInt();
-            System.out.println("Username: " + username);
-            System.out.println("timestamp: " + timestamp);
+
         }
         return revisionList;
     }
