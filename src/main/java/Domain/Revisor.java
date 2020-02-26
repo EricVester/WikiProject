@@ -12,7 +12,7 @@ public class Revisor {
     @SerializedName("timestamp")
     Date date;
 
-    public Revisor(String userName, Date date) {
+     Revisor(String userName, Date date) {
         this.userName = userName;
         this.date = date;
     }
