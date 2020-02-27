@@ -34,14 +34,13 @@ public class LearnTest {
             array= entryObject.getAsJsonArray("revisions");
 
         }
-        System.out.println(array);
-        System.out.println(url);
+
     }
 
     @Test
     public void ConnectionTester(){
         ConnectionCheck connectioncheck = new ConnectionCheck();
-        connectioncheck.checkURL();
+        Assertions.assertTrue(connectioncheck.checkURL());
 
     }
 

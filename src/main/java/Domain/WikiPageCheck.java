@@ -12,7 +12,7 @@ public class WikiPageCheck {
 
     }
 
-    public boolean checkExistence(List<Revisor> revisions)  {
+    public boolean checkExistence(List<Revisor> revisions){
         try {
             if (revisions.size() != 0) {
                 return true;

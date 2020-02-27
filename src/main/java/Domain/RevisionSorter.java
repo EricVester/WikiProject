@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class RevisionSorter {
+
     public ArrayList<Revisor> sort(ArrayList<Revisor> unsortedRevisions){
         HashMap<String, ArrayList<Date>> namedRevisionsMap = new HashMap<>();
         for(Revisor r: unsortedRevisions){
