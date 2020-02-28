@@ -3,54 +3,57 @@ package Domain;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class Parser {
 
-    public List<Revisor> parse (InputStream inputStream) {
-        JsonParser parser = new JsonParser();
-        Reader reader = new InputStreamReader(inputStream);
-        JsonElement rootElement = parser.parse(reader);
+    public ArrayList<Revisor> parse(String topic) throws UnsupportedEncodingException, MalformedURLException {
+        URL url = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + URLEncoder.encode(topic, ("utf-8")) + "&rvprop=timestamp|user&rvlimit=30&redirects");
+
+        try {
+            URL url1 = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + URLEncoder.encode(topic, ("utf-8")) + "&rvprop=timestamp|user&rvlimit=30&redirects");
+        } catch (MalformedURLException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        URLConnection connection = null;
+        try {
+
+            connection = url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        InputStream jsonFile = null;
+        try {
+            jsonFile = connection.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Reader reader = new InputStreamReader(jsonFile);
+        JsonParser jsonParser = new JsonParser();
+        JsonElement rootElement = jsonParser.parse(reader);
         JsonObject rootObject = rootElement.getAsJsonObject();
-        JsonObject page = rootObject.getAsJsonObject("query").getAsJsonObject("pages");
-        JsonArray jsonArray = null;
-        List<Revisor> revisorList = new ArrayList<>();
-        for (Map.Entry<String, JsonElement> entry : page.entrySet()) {
-            JsonObject entryObject = entry.getValue().getAsJsonObject();
-            jsonArray = entryObject.getAsJsonArray("revisions");
-
-        }
-
-        assert jsonArray != null;
-        for (JsonElement jElement : jsonArray) {
-
-            String username = jElement.getAsJsonObject().get("username").getAsString();
-            Integer timestamp = jElement.getAsJsonObject().get("timestamp").getAsInt();
-
-        }
-
-        return revisorList;
+        RevisonParser parser = new RevisonParser();
+        ArrayList<Revisor> revisions = parser.parse(rootElement);
+        return revisions;
     }
-       public ArrayList<Revisor> parse(JsonElement rootElement){
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").create();
-            JsonObject rootObject = rootElement.getAsJsonObject();
-            JsonObject pages = rootObject.getAsJsonObject("query").getAsJsonObject("pages");
-            JsonArray revisions = null;
-            for (Map.Entry<String, JsonElement> entry : pages.entrySet()) {
-                JsonObject entryObject = entry.getValue().getAsJsonObject();
-                revisions = entryObject.getAsJsonArray("revisions");
-            }
-            Type revisionListType = new TypeToken<ArrayList<Revisor>>() {
-            }.getType();
-            return gson.fromJson(revisions, revisionListType);
+    public static boolean redirectionFinder(JsonObject mainObject) {
+        try{
+            mainObject.getAsJsonObject("query").getAsJsonArray("redirects").get(0);
+            return true;
+        }catch (Exception e){
+            return false;
         }
-
 
     }
+
+
+}
 

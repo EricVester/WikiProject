@@ -9,9 +9,10 @@ public class RevisionSorter {
     public ArrayList<Revisor> sort(ArrayList<Revisor> unsortedRevisions){
         HashMap<String, ArrayList<Date>> namedRevisionsMap = new HashMap<>();
         for(Revisor r: unsortedRevisions){
-            if(namedRevisionsMap.containsKey(r.userName))
+                namedRevisionsMap.get(r.userName).add(r.date);
+            while(namedRevisionsMap.containsKey(r.userName)) {
                 namedRevisionsMap.put(r.userName, new ArrayList<>());
-            namedRevisionsMap.get(r.userName).add(r.date);
+            }
         }
         ArrayList<String> namesPartiallySorted = new ArrayList<>();
         ArrayList<String> namesUnsortedByFrequency = new ArrayList<>(namedRevisionsMap.keySet());

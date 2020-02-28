@@ -17,7 +17,7 @@ public class Revisor {
         this.date = date;
     }
 
-    public Revisor(String userName, String date){
+    public void Revisor(String userName, String date){
         this.userName = userName;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         try{
