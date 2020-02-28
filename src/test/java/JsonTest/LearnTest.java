@@ -46,7 +46,7 @@ public class LearnTest {
 
     @Test
     public void RedirectTest() throws IOException {
-        URL  url = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + URLEncoder.encode("dog", ("utf-8")) + "&rvprop=timestamp|user&rvlimit=30&redirects");
+        URL  url = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + URLEncoder.encode("Dog", ("utf-8")) + "&rvprop=timestamp|user&rvlimit=30&redirects");
         URLConnection urlConnection = null;
         urlConnection = url.openConnection();
         InputStream jsonFile = null;
@@ -56,7 +56,7 @@ public class LearnTest {
         JsonElement rootElement = jsonParser.parse(reader);
         JsonObject rootObject = rootElement.getAsJsonObject();
         RedirectionCheck redirectionCheck = new RedirectionCheck();
-        Assertions.assertTrue(redirectionCheck.redirectionFinder(rootObject));
+        Assertions.assertFalse(redirectionCheck.redirectionFinder(rootObject));
 
     }
 

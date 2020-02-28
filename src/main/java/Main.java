@@ -1,13 +1,8 @@
 import Domain.*;
 import Exceptions.ConnectionCheck;
-
-import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
-
-
 
 public class Main {
 
