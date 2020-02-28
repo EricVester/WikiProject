@@ -38,10 +38,6 @@ public class Main {
 
             System.out.println("Second List printed");
 
-            RevisionSorter revisionSorter = new RevisionSorter();
-            ArrayList<Revisor> revisionSorted = revisionSorter.sort(revisions);
-            System.out.println(revisionSorted);
-
 
 
         }
