@@ -1,3 +1,4 @@
+
 package Domain;
 
 import com.google.gson.*;
@@ -45,8 +46,4 @@ public class Parser {
 
 
 
-    }
-
-
-
-
+}

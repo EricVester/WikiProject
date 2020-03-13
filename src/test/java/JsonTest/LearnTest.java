@@ -1,3 +1,4 @@
+
 package JsonTest;
 
 import Domain.RevisonParser;
@@ -62,7 +63,7 @@ public class LearnTest {
 
     @Test
     public void PageCheck() throws IOException {
-      URL  url = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + URLEncoder.encode("dog", ("utf-8")) + "&rvprop=timestamp|user&rvlimit=30&redirects");
+        URL  url = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + URLEncoder.encode("dog", ("utf-8")) + "&rvprop=timestamp|user&rvlimit=30&redirects");
         URLConnection urlConnection = null;
         urlConnection = url.openConnection();
         InputStream jsonFile = null;
@@ -92,7 +93,6 @@ public class LearnTest {
     }
 
 
-    }
-
+}
 
 
