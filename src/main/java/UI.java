@@ -36,8 +36,9 @@ public class UI extends JFrame implements ActionListener {
     JButton wikiGet;
     JTextField getTopic;
     JTable displayTable;
-    JScrollPane displayScroll;
+    JScrollBar displayScroll;
     JButton getList;
+
     public UI(){
         super("Wikipedia Research");
         UIManager.put("Label.font", new FontUIResource(new Font("Dialog", Font.PLAIN, 20)));
@@ -52,40 +53,48 @@ public class UI extends JFrame implements ActionListener {
         var displayLabelConstraints = new GridBagConstraints(0, 0, 15, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(displayLabel, displayLabelConstraints);
 
-        displayTable = new JTable();
-        var displayTableConstraints = new GridBagConstraints(0, 1, 15, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
-        panel.add(displayTable,displayTableConstraints);
-
-
         getTopic = new JTextField();
         var  topicConstraints =   new GridBagConstraints(0, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
         panel.add(getTopic,topicConstraints);
 
+        getList = new JButton("Get Most Often Editor");
+        var  getListConstraints =   new GridBagConstraints(0, 4, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
+        getList.addActionListener(e -> {
 
-        wikiGet = new JButton("Search");
+            displayLabel.setText("Unavailable at this time");
+        });
+        panel.add(getList,getListConstraints);
+
+        ConnectionCheck connectionCheck = new ConnectionCheck();
+        if (connectionCheck.checkURL() == false) {
+            displayLabel.setText("No connection to Wikipedia try again later");
+        } else {
+            displayLabel.setText("Connection Test passed you may continue and type a topic below");
+        }
+
+        wikiGet = new JButton("Get Revisions");
         var  wikiGetConstraints =   new GridBagConstraints(0, 3, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
-        wikiGet.addActionListener(e ->{
+        wikiGet.addActionListener(e -> {
             String topic = getTopic.getText();
             try {
-               ArrayList<Revisor> revisions = parser.parse(topic);
-                WikiPageCheck checkPage = new WikiPageCheck();
+                    ArrayList<Revisor> revisions = parser.parse(topic);
+                    WikiPageCheck checkPage = new WikiPageCheck();
 
-                if (checkPage.checkExistence(revisions)) {
-                    for (Revisor r : revisions) {
-                        lastRun =  lastRun +r.toString();
-                        displayLabel.setText(lastRun);
+                    if (checkPage.checkExistence(revisions)) {
+                        for (Revisor r : revisions) {
+                            lastRun = lastRun + r.toString() + " ";
+                            displayLabel.setText("<html>" + lastRun + "<html>");
+
+                        }
+                    } else {
+                        displayLabel.setText("No Wikipedia Page found for this Topic");
                     }
-                } else {
-                    displayLabel.setText("No Wikipedia Page found for this Topic");
+                    lastRun = "";
+                } catch(UnsupportedEncodingException ex){
+                    ex.printStackTrace();
+                } catch(MalformedURLException ex){
+                    ex.printStackTrace();
                 }
-                lastRun = "";
-            } catch (UnsupportedEncodingException ex) {
-                ex.printStackTrace();
-            } catch (MalformedURLException ex) {
-                ex.printStackTrace();
-            }
-
-
         });
 
 
